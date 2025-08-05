@@ -1,88 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Eashwar Siddha | Portfolio</title>
-  <link rel="stylesheet" href="style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eashwar | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Eashwar Siddha</h1>
-    <p>AI Enthusiast • Developer • Problem Solver</p>
     <nav>
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="https://www.linkedin.com/in/eash123/" target="_blank">LinkedIn</a>
-      <a href="https://github.com/eashwar910" target="_blank">GitHub</a>
+        <div class="nav-logo">Eashwar</div>
+        <ul class="nav-links">
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="https://www.linkedin.com/in/eash123/" target="_blank">LinkedIn</a></li>
+            <li><a href="https://github.com/eashwar910" target="_blank">GitHub</a></li>
+        </ul>
     </nav>
-  </header>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>
-      I'm a Computer Science & AI undergraduate passionate about building intelligent systems and efficient software tools.
-      I enjoy solving real-world problems through technology and exploring the intersection of machine learning and systems programming.
-    </p>
-  </section>
+    <header id="about">
+        <img src="https://avatars.githubusercontent.com/u/65266510" alt="Eashwar's profile" class="profile-pic">
+        <h1>Hi, I'm Eashwar!</h1>
+        <p class="tagline">AI enthusiast | Agriculture Innovator | Problem Solver</p>
+        <p>
+            I'm passionate about leveraging technology and AI to solve real-world problems in agriculture. Welcome to my portfolio!
+        </p>
+        <a href="#contact" class="cta-btn">Contact Me</a>
+    </header>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="project-grid">
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="projects-container">
+            <div class="project-card">
+                <h3>Seed Germination AI</h3>
+                <p>Built AI tools using UNet and custom datasets to analyze seed germination for precision agriculture.</p>
+                <a href="https://github.com/eashwar910/Nand2Tetris" target="_blank">View Code</a>
+            </div>
+            <div class="project-card">
+                <h3>Maze Solver</h3>
+                <p>A visual Maze Generator/Solver demonstrating search algorithms in Python.</p>
+                <a href="https://github.com/eashwar910/MazeSolver" target="_blank">View Code</a>
+            </div>
+            <!-- Add more projects with similar cards -->
+        </div>
+    </section>
 
-      <div class="project">
-        <h3>OCR Handwriting Recognition</h3>
-        <p>OCR-based handwriting recognition using image processing and ML.</p>
-        <a href="https://github.com/eashwar910/OCRHandwriting-Recognition" target="_blank">View on GitHub</a>
-      </div>
+    <section id="skills">
+        <h2>Skills</h2>
+        <ul class="skills-list">
+            <li>Python</li>
+            <li>C</li>
+            <li>AI/Machine Learning</li>
+            <li>ARM Assembly</li>
+            <li>Socket Programming</li>
+            <li>Data Science</li>
+            <li>Agriculture Tech</li>
+        </ul>
+    </section>
 
-      <div class="project">
-        <h3>Dominos Clone</h3>
-        <p>Clone of Domino’s India app — built because Malaysia’s version wasn't usable.</p>
-        <a href="https://github.com/eashwar910/Dominos" target="_blank">View on GitHub</a>
-      </div>
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Want to team up or learn more about my work? Drop me a mail!</p>
+        <a href="mailto:youremail@domain.com" class="cta-btn">Send Email</a>
+    </section>
 
-      <div class="project">
-        <h3>Maze Solver</h3>
-        <p>Maze generator/solver that visualizes search algorithms in Python.</p>
-        <a href="https://github.com/eashwar910/MazeSolver" target="_blank">View on GitHub</a>
-      </div>
-
-      <div class="project">
-        <h3>Contact Management System</h3>
-        <p>A terminal-based contact management system built in C.</p>
-        <a href="https://github.com/eashwar910/Contact_ManagementSystem" target="_blank">View on GitHub</a>
-      </div>
-
-      <div class="project">
-        <h3>ARM Assembly Sort</h3>
-        <p>Merge Sort implemented using ARM Assembly on Keil uVision 5.</p>
-        <a href="https://github.com/eashwar910/ARM_Assembly" target="_blank">View on GitHub</a>
-      </div>
-
-      <div class="project">
-        <h3>Socket Programming</h3>
-        <p>Server-client communication examples using sockets in C.</p>
-        <a href="https://github.com/eashwar910/SocketProgramming" target="_blank">View on GitHub</a>
-      </div>
-
-      <div class="project">
-        <h3>Nand2Tetris ALU + Computer</h3>
-        <p>Designed a custom 16-bit ALU and computer for math, power, and factorial operations.</p>
-        <a href="https://github.com/eashwar910/Nand2Tetris" target="_blank">View on GitHub</a>
-      </div>
-
-      <div class="project">
-        <h3>PFarmer</h3>
-        <p>Rotten fruit detection using image processing and model inference.</p>
-        <a href="https://github.com/eashwar910/PFarmer" target="_blank">View on GitHub</a>
-      </div>
-
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2025 Eashwar Siddha</p>
-  </footer>
+    <footer>
+        <p>© 2024 Eashwar. Made with ❤️</p>
+    </footer>
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if(this.getAttribute('href') !== "#"){
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
