@@ -4,7 +4,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/', // Add this line for GitHub Pages
+  base: '/', // This should be '/' for username.github.io repos
   server: {
     host: "::",
     port: 8080,
