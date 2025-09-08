@@ -17,25 +17,25 @@ const Home: React.FC = () => {
 
   const featuredProjects = [
     {
-      title: "Crop Disease Detection",
-      description: "YOLOv8-based system for early disease identification",
-      image: "/placeholder.svg",
-      tags: ["Computer Vision", "PyTorch", "YOLOv8"],
-      accuracy: "94.2%"
+      title: "Rotten Fruit Detector",
+      description: "VGG16-based tool that classifies and flags rotten fruits/vegetables from images by learning texture and color degradation patterns.",
+      image: "pfarmer.drawio.svg",
+      tags: ["Computer Vision", "VGG16", "PyTorch"],
+      accuracy: "98%"
     },
     {
-      title: "Soil Moisture Prediction",
-      description: "ML model using satellite imagery for irrigation optimization",
+      title: "Handwriting Translator",
+      description: "OCR-powered handwriting-to-text translator built from first principles—recreating an ocr_keras–style pipeline with a custom drawing interface for data input.",
       image: "/placeholder.svg",
-      tags: ["Machine Learning", "Remote Sensing", "TensorFlow"],
-      accuracy: "89.7%"
+      tags: ["OCR", "Pygame"],
+      accuracy: "76%"
     },
     {
-      title: "Yield Estimation System",
-      description: "CNN-based crop yield prediction from drone imagery",
+      title: "Algorithm Visualizer",
+      description: "Interactive visualization of search and pathfinding using generated mazes; includes Kruskal's, BFS, DFS, A*, and Greedy algorithms.",
       image: "/placeholder.svg",
-      tags: ["Deep Learning", "Drone Data", "Segmentation"],
-      accuracy: "91.5%"
+      tags: ["Search Algorithms", "Pygame"],
+      accuracy: "100%"
     }
   ];
 
@@ -56,21 +56,15 @@ const Home: React.FC = () => {
           </div>
           
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            [YOUR NAME]
+            Eashwar Siddha
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-4">
             Computer Science & AI Student — AgTech Research
           </p>
           
-          <p className="text-lg md:text-xl text-green-600 dark:text-green-400 mb-8 font-medium">
-            {taglines[0]}
-          </p>
-          
           <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Developing AI-powered solutions for sustainable agriculture through computer vision, 
-            machine learning, and precision farming technologies. Currently researching crop 
-            monitoring systems under [Lecturer Name] at [University Name].
+            Aiming to develop AI-powered solutions for sustainable agriculture through computer vision, machine learning, and precision farming technologies. Currently working on a research project about seed analysis techniques at University of Nottingham, Malaysia Campus.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -91,7 +85,7 @@ const Home: React.FC = () => {
           <div className="mt-12 p-4 bg-muted/50 rounded-lg">
             <p className="text-sm text-muted-foreground">
               <Badge variant="secondary" className="mr-2">Active Research</Badge>
-              Working with Lecturer at [University Name] — Ongoing Research in Precision Agriculture
+              Working with Lecturer at University of Nottingham, Malaysia Campus — Ongoing Research in Seed Germination Analaysis using Computer Vision
             </p>
           </div>
         </div>
@@ -111,8 +105,17 @@ const Home: React.FC = () => {
             {featuredProjects.map((project, index) => (
               <Card key={index} className="group hover:shadow-lg transition-shadow">
                 <CardHeader>
-                  <div className="w-full h-48 bg-muted rounded-lg mb-4 flex items-center justify-center">
-                    <BarChart3 className="w-12 h-12 text-muted-foreground" />
+                  <div className="w-full h-48 bg-muted rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                    {project.image ? (
+                      <img
+                        src={project.image.startsWith('/') ? project.image : `/images/${project.image}`}
+                        alt={project.title}
+                        className="w-full h-full object-contain"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <BarChart3 className="w-12 h-12 text-muted-foreground" />
+                    )}
                   </div>
                   <CardTitle className="text-lg">{project.title}</CardTitle>
                   <CardDescription>{project.description}</CardDescription>
