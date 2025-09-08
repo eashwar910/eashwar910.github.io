@@ -110,7 +110,7 @@ const Home: React.FC = () => {
                       <img
                         src={project.image.startsWith('/') ? project.image : `/images/${project.image}`}
                         alt={project.title}
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-cover object-center"
                         loading="lazy"
                       />
                     ) : (
