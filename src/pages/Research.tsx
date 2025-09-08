@@ -9,8 +9,8 @@ import Layout from '@/components/Layout';
 const Research: React.FC = () => {
   const currentResearch = {
     title: "Multi-Modal Crop Health Assessment Using Computer Vision and IoT Sensors",
-    affiliation: "[University Name]",
-    advisor: "Prof. [Lecturer Name]",
+    affiliation: "University of Nottingham, Malaysia Campus",
+    advisor: "Prof. [Advisor Name]",
     summary: "Developing an integrated system that combines drone imagery, satellite data, and ground-based IoT sensors for comprehensive crop health monitoring and early disease detection.",
     objectives: [
       "Develop multi-modal fusion algorithms for crop health assessment",

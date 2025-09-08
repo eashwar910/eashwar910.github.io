@@ -10,7 +10,7 @@ const Timeline: React.FC = () => {
       date: "2024-01",
       type: "project",
       title: "Multi-Modal Crop Health Assessment",
-      org: "[University Name] Research",
+      org: "University of Nottingham, Malaysia Campus Research",
       description: "Started PhD-level research on combining computer vision with IoT sensors for comprehensive crop monitoring.",
       icon: TreePine,
       phase: "growth"
@@ -19,7 +19,7 @@ const Timeline: React.FC = () => {
       date: "2023-09",
       type: "education",
       title: "Advanced Machine Learning",
-      org: "[University Name]",
+      org: "University of Nottingham, Malaysia Campus",
       description: "Specialized coursework in deep learning architectures, with focus on computer vision applications.",
       icon: BookOpen,
       phase: "growth"
@@ -37,7 +37,7 @@ const Timeline: React.FC = () => {
       date: "2023-01",
       type: "education",
       title: "Computer Vision Fundamentals",
-      org: "[University Name]",
+      org: "University of Nottingham, Malaysia Campus",
       description: "Core coursework covering image processing, feature extraction, and classical ML approaches to vision.",
       icon: BookOpen,
       phase: "sprout"
@@ -55,7 +55,7 @@ const Timeline: React.FC = () => {
       date: "2022-09",
       type: "education",
       title: "Data Structures & Algorithms",
-      org: "[University Name]",
+      org: "University of Nottingham, Malaysia Campus",
       description: "Fundamental computer science coursework with applications to agricultural data processing.",
       icon: BookOpen,
       phase: "sprout"
@@ -64,7 +64,7 @@ const Timeline: React.FC = () => {
       date: "2022-08",
       type: "education",
       title: "Started Computer Science Degree",
-      org: "[University Name]",
+      org: "University of Nottingham, Malaysia Campus",
       description: "Began undergraduate studies with focus on AI applications in agriculture and sustainability.",
       icon: GraduationCap,
       phase: "seed"
