@@ -7,7 +7,7 @@ export const siteContent = {
     github: "https://github.com/eashwar910",
     university: "University Of Nottingham, Malaysia Campus",
     advisor: "Dr. Tissa Chandesa",
-    resumeFile: "/static/resume.pdf",
+    resumeFile: "static/resume.pdf",
     availability: "Open to RA/Research Intern roles — Summer 2026"
   },
   taglines: [
