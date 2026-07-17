@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- DESIGN.md Section 2 — single source of truth for palette. --- */
+/* Never hardcode these hexes in a component; reference the token via Tailwind or var(). */
+:root {
+  --bg-base: #1C1F1A;
+  --bg-panel: #F4F1E8;
+  --accent-leaf: #4C7A3D;
+  --accent-soil: #8A6142;
+  --accent-sky: #A9C6D6;
+  --accent-wheat: #D9B168;
+  --text-primary: #1C1F1A;
+  --text-inverse: #F4F1E8;
+  --sticker-opacity: 0.18;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg-base);
+  color: var(--text-inverse);
+  font-family: var(--font-ui), sans-serif;
+}
+
+/* --- Markdown "document" voice (Piazzolla) rendered inside opened file windows. --- */
+/* Palette-locked via var() only; derived tints use color-mix so no raw hex appears here. */
+.markdown-body {
+  font-family: var(--font-content), serif;
+  color: var(--text-primary);
+  line-height: 1.65;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 1.4em 0 0.5em;
+}
+
+.markdown-body h1 { font-size: 1.7rem; }
+.markdown-body h2 { font-size: 1.35rem; }
+.markdown-body h3 { font-size: 1.12rem; }
+.markdown-body > :first-child { margin-top: 0; }
+
+.markdown-body p,
+.markdown-body ul,
+.markdown-body ol {
+  margin: 0 0 0.9em;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 1.4em;
+}
+
+/* Tailwind's preflight resets list markers; restore them for rendered markdown. */
+.markdown-body ul { list-style: disc; }
+.markdown-body ol { list-style: decimal; }
+
+.markdown-body li { margin: 0.2em 0; }
+
+.markdown-body a {
+  color: var(--accent-soil);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.markdown-body strong { font-weight: 600; }
+
+.markdown-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
+  background: color-mix(in srgb, var(--accent-soil) 12%, transparent);
+  padding: 0.12em 0.35em;
+  border-radius: 4px;
+}
+
+.markdown-body pre {
+  background: color-mix(in srgb, var(--bg-base) 8%, transparent);
+  padding: 0.9em 1em;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0 0 0.9em;
+}
+
+.markdown-body pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.markdown-body blockquote {
+  border-left: 3px solid color-mix(in srgb, var(--accent-leaf) 60%, transparent);
+  margin: 0 0 0.9em;
+  padding-left: 1em;
+  font-style: italic;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 0.9em;
+  font-size: 0.94em;
+}
+
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid color-mix(in srgb, var(--accent-soil) 30%, transparent);
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
