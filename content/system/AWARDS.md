@@ -6,7 +6,7 @@ hasDemo: false
 demoUrl: null
 stickerTheme: null
 icon: "trophy-neutral"
-defaultPosition: { x: 780, y: 140 }
+defaultPosition: { x: 340, y: 240 }
 order: 0
 ---
 

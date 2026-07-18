@@ -6,7 +6,7 @@ hasDemo: false
 demoUrl: null
 stickerTheme: null
 icon: "timeline-neutral"
-defaultPosition: { x: 460, y: 140 }
+defaultPosition: { x: 60, y: 240 }
 order: 0
 timeline:
   - date: "2022-06"

@@ -2,11 +2,11 @@
 title: "Crop Disease Classifier"
 slug: "crop-disease-classifier"
 tags: ["agriculture", "ml", "computer-vision"]
-hasDemo: true
-demoUrl: "https://crop-disease-demo.streamlit.app"
+hasDemo: false
+demoUrl: null
 stickerTheme: "leaf-scan"
 icon: "leaf-circuit"
-defaultPosition: { x: 120, y: 240 }
+defaultPosition: { x: 60, y: 60 }
 order: 1
 ---
 

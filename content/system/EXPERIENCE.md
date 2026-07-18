@@ -6,7 +6,7 @@ hasDemo: false
 demoUrl: null
 stickerTheme: null
 icon: "briefcase-neutral"
-defaultPosition: { x: 620, y: 140 }
+defaultPosition: { x: 200, y: 240 }
 order: 0
 ---
 

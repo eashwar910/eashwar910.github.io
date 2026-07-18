@@ -33,10 +33,10 @@ breaks the palette/style.
 ---
 
 ## Phase 1 — Prove the rendering pipeline (no OS mechanics yet)
-- [ ] Static Next.js page, solid background color (no wallpaper yet)
-- [ ] One hardcoded icon, click opens a modal
-- [ ] Modal renders one hardcoded `.md` file's content via react-markdown
-- [ ] Frontmatter parsing works (`hasDemo`, `demoUrl`, `stickerTheme` fields readable)
+- [x] Static Next.js page, solid background color (no wallpaper yet)
+- [x] One hardcoded icon, click opens a modal
+- [x] Modal renders one hardcoded `.md` file's content via react-markdown
+- [x] Frontmatter parsing works (`hasDemo`, `demoUrl`, `stickerTheme` fields readable)
 
 **Exit criteria:** clicking an icon reliably shows real markdown content in a floating box.
 Nothing needs to look good yet.
@@ -44,13 +44,13 @@ Nothing needs to look good yet.
 ---
 
 ## Phase 2 — Desktop mechanics (the core engineering lift)
-- [ ] Icon grid layout with drag-to-reposition (persist position to localStorage)
-- [ ] Window manager: open/close/focus/z-index via Zustand store + react-rnd
-- [ ] Multi-select: marquee/box-select hook (`useMarqueeSelect`) — build and test in isolation
-- [ ] Multi-open: selected icons + Enter/double-click opens all as separate windows
-- [ ] Right-click context menu (Refresh, Open, Rename-disabled, etc.)
-- [ ] Minimized-window tray (small chips near the chat dock, since there's no traditional taskbar)
-- [ ] "Use Application" popup: when a project has `hasDemo: true`, clicking its `.exe`-styled
+- [x] Icon grid layout with drag-to-reposition (persist position to localStorage)
+- [x] Window manager: open/close/focus/z-index via Zustand store + react-rnd
+- [x] Multi-select: marquee/box-select hook (`useMarqueeSelect`) — build and test in isolation
+- [x] Multi-open: selected icons + Enter/double-click opens all as separate windows
+- [x] Right-click context menu (Refresh, Open, Rename-disabled, etc.)
+- [x] Minimized-window tray (small chips near the chat dock, since there's no traditional taskbar)
+- [x] "Use Application" popup: when a project has `hasDemo: true`, clicking its `.exe`-styled
       sibling icon shows a popup linking out to the Streamlit demo URL
 
 **Exit criteria:** the whole thing behaves like a real (if minimal) desktop OS using gray-box
@@ -60,11 +60,14 @@ ahead to theming while anything here is flaky.
 ---
 
 ## Phase 3 — Real content
-- [ ] Convert every real project into a frontmatter-driven `.md` file per the CLAUDE.md schema
-- [ ] Write `TIMELINE.md`, `AWARDS.md`, `EXPERIENCE.md` content
-- [ ] Build the timeline graphic component (can be a simple vertical/horizontal SVG/CSS timeline,
+- [x] Convert every real project into a frontmatter-driven `.md` file per the CLAUDE.md schema
+      (Crop Disease Classifier, Rotten Fruit Detection, Seed Segmentation, Farmer Buddy — the
+      Farmer Buddy body is a stub pending a fuller write-up)
+- [x] Write `TIMELINE.md`, `AWARDS.md`, `EXPERIENCE.md` content (now live at `content/system/`)
+- [x] Build the timeline graphic component (can be a simple vertical/horizontal SVG/CSS timeline,
       driven by a `timeline` array in TIMELINE.md's frontmatter — not hardcoded JSX)
-- [ ] Wire up real Streamlit demo URLs where applicable
+- [ ] Wire up real Streamlit demo URLs where applicable — pending: all projects are `hasDemo:
+      false` until real URLs are supplied
 
 **Exit criteria:** the desktop is functionally your real portfolio, just visually plain.
 
