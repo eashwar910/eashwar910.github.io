@@ -1,3 +1,146 @@
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/dm-sans';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* Overwritten from altitude by Descent (see scroll/looks.ts). Defaults = space palette. */
+  --scrim: rgb(6 12 32 / 0.55);
+  --accent: rgb(74 222 128);
+}
+
+/* html only: a body background would paint over the -z-10 globe */
+html {
+  background: #000;
+}
+body {
+  font-family: 'DM Sans Variable', system-ui, sans-serif;
+}
+
+/* Captions: scrim fades in, lines rise in one after another (--d is the per-line delay). */
+.caption {
+  background: var(--scrim);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.caption-line {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+.caption[data-active='true'] {
+  opacity: 1;
+  transition-duration: 0.6s;
+}
+.caption[data-active='true'] .caption-line {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.8s ease var(--d),
+    transform 0.8s ease var(--d);
+}
+.caption[data-active='true'] .caption-line.opacity-90 {
+  opacity: 0.9;
+}
+
+/* Static story (reduced motion / no WebGL): original artwork, no imagery. */
+.static-bg {
+  background:
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.03) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.03) 0 1px, transparent 1px 48px),
+    linear-gradient(to bottom, #050a1e, #12301f 55%, #3a2f1b);
+  background-attachment: fixed;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation: none !important;
+  }
+}
+
+/* Cesium: the canvas never takes input; keep attribution readable but small. */
+.globe,
+.globe .cesium-widget,
+.globe canvas {
+  pointer-events: none;
+}
+.globe .cesium-widget-credits {
+  pointer-events: auto;
+  font-size: 10px;
+}
+
+/* Odisha radar overlay (decorative). */
+.radar-ring,
+.radar-sweep,
+.radar-dot {
+  position: absolute;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+}
+.radar-ring {
+  width: 220px;
+  height: 220px;
+  border: 1.5px solid var(--accent);
+  animation: radar-ping 3s ease-out infinite;
+}
+.radar-sweep {
+  width: 220px;
+  height: 220px;
+  background: conic-gradient(from 0deg, transparent 0 70%, rgb(255 255 255 / 0.28) 100%);
+  mask-image: radial-gradient(circle, #000 0 69%, transparent 70%);
+  animation: radar-spin 4s linear infinite;
+}
+.radar-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgb(255 255 255 / 0.5);
+}
+.radar-label {
+  position: absolute;
+  left: 14px;
+  top: -8px;
+  font:
+    600 13px/1 'DM Sans Variable',
+    sans-serif;
+  color: #fff;
+  text-shadow: 0 1px 4px #000;
+}
+@keyframes radar-ping {
+  from {
+    transform: translate(-50%, -50%) scale(0.1);
+    opacity: 0.9;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+@keyframes radar-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Hub panels: frosted glass. --scrim follows altitude, so the hub keeps the warm daylight tint. */
+.glass {
+  background: var(--scrim);
+  backdrop-filter: blur(18px) saturate(1.2);
+  border: 1px solid rgb(255 255 255 / 0.15);
+}
+
+/* Fallow Finder: slow radar sweep over the field grid (decorative). */
+.fallow-sweep {
+  background: conic-gradient(from 0deg, transparent 0 85%, rgb(74 222 128 / 0.18) 100%);
+  animation: fallow-spin 6s linear infinite;
+}
+@keyframes fallow-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
