@@ -170,7 +170,7 @@ export default function RadicleGame({ onFinish }: { onFinish: (score: number) =>
         tabIndex={0}
         role="application"
         aria-label="Seedling under a simulated microscope. Click the root tip, then the seed end. Arrow keys move a crosshair, Enter places a point."
-        className="mx-auto w-full max-w-[560px] cursor-crosshair touch-none rounded-2xl bg-[#0b1d16] focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+        className="mx-auto w-full max-w-[560px] cursor-crosshair touch-none rounded-lg bg-[#0b1d16] focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
         onPointerDown={(e) => {
           setKbd(false);
           place(toSvg(e));

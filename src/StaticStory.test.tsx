@@ -9,7 +9,7 @@ describe('StaticStory (reduced-motion / no-WebGL path)', () => {
     for (const line of chapters.flatMap((c) => c.lines)) {
       expect(html).toContain(line.replace(/'/g, '&#x27;'));
     }
-    expect(html).toContain('href="#/timeline"');
+    expect(html).toContain('href="#/all"');
   });
 
   it('never shows a phone number or results claims', () => {

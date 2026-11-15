@@ -3,8 +3,10 @@ import { SMOOTHING, STRAIGHT_ZOOM } from '../config';
 import { chapters } from '../content/story';
 import { cameraAt } from '../globe/cameraPath';
 import { createGlobe } from '../globe/GlobeEngine';
+import type { GlobeEngine } from '../globe/GlobeEngine';
+import { EXPLORE_POSE } from '../globe/explore';
 import Hub from '../hub/Hub';
-import { DEFAULT_SECTION, goto, type Section } from '../hub/route';
+import { goto, type Route } from '../hub/route';
 import Caption from './Caption';
 import LoadingScreen from './LoadingScreen';
 import { odishaOpacity, spinWeight, themeAt } from './looks';
@@ -12,10 +14,6 @@ import OdishaOverlay from './OdishaOverlay';
 
 const LAST = chapters.length - 1;
 const READY_TIMEOUT_MS = 8000;
-const END_DWELL_MS = 2000; // time on the last chapter before the hub fades in
-const HUB_FRAME_MS = 33; // hub backdrop renders at ~30 fps (10 fps made the drift visibly steppy)
-const DRIFT_DEG = 25; // hub drift swing either side of north
-const DRIFT_PERIOD_S = 90;
 
 const formatKm = (m: number) => {
   const km = m / 1000;
@@ -27,9 +25,9 @@ const scrollToProgress = (p: number) => {
   window.scrollTo({ top: p * max, behavior: 'smooth' }); // reduced-motion users get the static story instead
 };
 
-/** The globe and the scroll-driven descent. With `section` set, the same globe becomes the hub backdrop. */
-export default function Descent({ section, onFail }: { section: Section | null; onFail: () => void }) {
-  const hub = section !== null;
+/** The globe and the scroll-driven descent. Once the route leaves the descent, the same globe is handed to the hub. */
+export default function Descent({ route, onFail }: { route: Route; onFail: () => void }) {
+  const hub = route.mode !== 'descent';
   const hubInit = useRef(hub);
   const ctl = useRef<{ setHub: (h: boolean) => void }>();
   const globeEl = useRef<HTMLDivElement>(null);
@@ -38,10 +36,11 @@ export default function Descent({ section, onFail }: { section: Section | null; 
   const odishaEl = useRef<HTMLDivElement>(null);
   const [chapter, setChapter] = useState(0);
   const [loaded, setLoaded] = useState(false);
+  const [engine, setEngine] = useState<GlobeEngine | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    let engine: Awaited<ReturnType<typeof createGlobe>> | undefined;
+    let engine: GlobeEngine | undefined;
     let raf = 0;
     let last = 0;
     let max = 1;
@@ -49,8 +48,6 @@ export default function Descent({ section, onFail }: { section: Section | null; 
     let current = 0;
     let drawn = -1;
     let hubMode = hubInit.current;
-    let lastDraw = 0;
-    let endTimer = 0;
     let spinLon = 0; // user drag-rotation of the orbit view, degrees
     let spinLat = 0;
     let drag: { x: number; y: number } | null = null;
@@ -59,16 +56,6 @@ export default function Descent({ section, onFail }: { section: Section | null; 
     const measure = () => {
       max = Math.max(root.scrollHeight - window.innerHeight, 1);
       target = hubMode ? 1 : Math.min(Math.max(window.scrollY / max, 0), 1);
-    };
-
-    // Resting on the last chapter long enough hands over to the hub; scrolling back up cancels it.
-    const checkEnd = () => {
-      const atEnd = !hubMode && target > 0.995 && current > 0.995;
-      if (atEnd && !endTimer) endTimer = window.setTimeout(() => goto(DEFAULT_SECTION), END_DWELL_MS);
-      if (!atEnd && endTimer) {
-        clearTimeout(endTimer);
-        endTimer = 0;
-      }
     };
 
     const updateOverlay = () => {
@@ -85,46 +72,35 @@ export default function Descent({ section, onFail }: { section: Section | null; 
     };
 
     // Progress lives in plain variables; only the chapter index touches React state.
+    // In hub mode the hub owns the camera, so this loop only ever runs during the descent.
     const tick = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.1);
       last = now;
       current += (target - current) * (1 - Math.exp(-dt * SMOOTHING));
       if (Math.abs(target - current) < 1e-5) current = target;
-      const drifting = hubMode && current === 1;
-      if (drifting && now - lastDraw < HUB_FRAME_MS) {
-        raf = requestAnimationFrame(tick);
-        return;
-      }
-      if (current !== drawn || drifting) {
-        const first = drawn < 0;
+      if (current !== drawn) {
         drawn = current;
-        lastDraw = now;
-        const heading = drifting ? DRIFT_DEG * Math.sin((now / 1000 / DRIFT_PERIOD_S) * 2 * Math.PI) : 0;
-        const pose = cameraAt(current, STRAIGHT_ZOOM, heading);
+        const pose = cameraAt(current, STRAIGHT_ZOOM);
         const w = spinWeight(current);
         if (w > 0) {
           pose.lon += spinLon * w;
           pose.lat = Math.min(Math.max(pose.lat + spinLat * w, -85), 85);
         }
         engine?.setCamera(pose);
-        // Nothing below changes while the hub drifts, so skip the DOM writes on those frames.
-        if (!drifting || first) {
-          updateOverlay();
-          const theme = themeAt(pose.height);
-          root.style.setProperty('--scrim', theme.scrim);
-          root.style.setProperty('--accent', theme.accent);
-          if (altEl.current) altEl.current.textContent = formatKm(pose.height);
-          if (fillEl.current) fillEl.current.style.transform = `scaleY(${current})`;
-          setChapter(Math.round(current * LAST));
-        }
+        updateOverlay();
+        const theme = themeAt(pose.height);
+        root.style.setProperty('--scrim', theme.scrim);
+        root.style.setProperty('--accent', theme.accent);
+        if (altEl.current) altEl.current.textContent = formatKm(pose.height);
+        if (fillEl.current) fillEl.current.style.transform = `scaleY(${current})`;
+        setChapter(Math.round(current * LAST));
       }
-      checkEnd();
-      raf = current === target && !hubMode ? 0 : requestAnimationFrame(tick);
+      raf = current === target || hubMode ? 0 : requestAnimationFrame(tick);
     };
 
     const wake = () => {
       measure();
-      if (!raf && engine) {
+      if (!raf && engine && !hubMode) {
         last = performance.now();
         raf = requestAnimationFrame(tick);
       }
@@ -133,25 +109,25 @@ export default function Descent({ section, onFail }: { section: Section | null; 
     ctl.current = {
       setHub(h) {
         hubMode = h;
-        engine?.setLowPower(h);
         if (!h) {
           window.scrollTo(0, 0); // replay: start again from orbit
           current = 0;
         }
         measure();
         drawn = -1;
-        checkEnd();
         wake();
       },
     };
 
     measure();
-    current = hubMode ? 1 : target; // a reload mid-page starts where the scroll is; a hub deep link starts over Chennai
+    current = hubMode ? 1 : target; // a reload mid-page starts where the scroll is
     createGlobe(globeEl.current!)
       .then((e) => {
         if (cancelled) return e.destroy();
         engine = e;
-        e.setLowPower(hubMode);
+        setEngine(e);
+        // A deep link to the hub starts on the resting globe; arriving from the descent pulls back instead (see Explore).
+        if (hubMode) e.setCamera(EXPLORE_POSE);
         drawn = -1; // force the first frame
         wake();
         const timeout = new Promise<void>((r) => setTimeout(r, READY_TIMEOUT_MS));
@@ -189,7 +165,6 @@ export default function Descent({ section, onFail }: { section: Section | null; 
     window.addEventListener('resize', wake);
     return () => {
       cancelled = true;
-      clearTimeout(endTimer);
       cancelAnimationFrame(raf);
       window.removeEventListener('pointerdown', dragStart);
       window.removeEventListener('pointermove', dragMove);
@@ -208,9 +183,13 @@ export default function Descent({ section, onFail }: { section: Section | null; 
   return (
     <>
       <LoadingScreen visible={!loaded} />
-      <div ref={globeEl} className="globe fixed inset-0 -z-10 bg-black" aria-hidden="true" />
+      <div
+        ref={globeEl}
+        className={`globe fixed inset-0 -z-10 bg-black ${route.mode === 'explore' ? 'globe-live' : ''}`}
+        aria-hidden="true"
+      />
       <OdishaOverlay ref={odishaEl} />
-      {section && <Hub section={section} />}
+      {hub && <Hub route={route} engine={engine} />}
 
       {!hub && (
         <>
@@ -260,7 +239,20 @@ export default function Descent({ section, onFail }: { section: Section | null; 
                 aria-label={c.title}
                 className="flex h-screen items-center px-6 text-white sm:px-16"
               >
-                <Caption chapter={c} index={i} active={i === chapter} />
+                <div>
+                  <Caption chapter={c} index={i} active={i === chapter} />
+                  {i === LAST && (
+                    // The descent ends here and waits: the visitor chooses when to leave Chennai.
+                    <button
+                      type="button"
+                      onClick={() => goto('explore')}
+                      tabIndex={chapter === LAST ? 0 : -1}
+                      className={`mt-6 min-h-[48px] rounded-full bg-[color:var(--accent)] px-7 text-base font-semibold text-black transition-opacity duration-700 hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${chapter === LAST ? 'opacity-100 delay-700' : 'pointer-events-none opacity-0'}`}
+                    >
+                      Dive deeper ↗
+                    </button>
+                  )}
+                </div>
               </section>
             ))}
           </main>

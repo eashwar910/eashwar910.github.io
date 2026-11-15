@@ -3,7 +3,7 @@ import Panel, { Chip } from '../Panel';
 
 export default function Skills() {
   return (
-    <Panel kicker="05 / SKILLS AND AWARDS" title="What I work with">
+    <Panel kicker="Skills and awards" title="What I work with">
       <div className="space-y-5">
         {skillGroups.map((g) => (
           <section key={g.group} aria-label={g.group}>

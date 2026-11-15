@@ -39,7 +39,7 @@ export default function Lab() {
   const active = GAMES.find((g) => g.id === game);
 
   return (
-    <Panel kicker="03 / LAB" title={active ? active.title : 'The Lab'}>
+    <Panel kicker="Lab" title={active ? active.title : 'The Lab'}>
       {active ? (
         <>
           <button type="button" className={`${btn} mb-4`} onClick={() => setGame(null)}>
@@ -55,12 +55,12 @@ export default function Lab() {
             Three small games, each under two minutes. They are playful demos, not real model output. Your
             best scores are saved in this browser only.
           </p>
-          <ul className="grid gap-4 md:grid-cols-3">
+          <ul className="grid gap-4">
             {GAMES.map((g) => (
-              <li key={g.id} className="flex flex-col rounded-2xl border border-white/15 bg-white/5 p-5">
-                <h2 className="font-display text-xl leading-snug">{g.title}</h2>
+              <li key={g.id} className="flex flex-col rounded-lg border border-white/15 bg-white/[0.03] p-5">
+                <h2 className="font-hub text-xl leading-snug">{g.title}</h2>
                 <p className="mt-2 flex-1 text-sm opacity-90">{g.blurb}</p>
-                <p className="mt-3 font-mono text-xs tracking-wider opacity-70">
+                <p className="mt-3 tabular-nums text-xs tracking-wider opacity-70">
                   BEST {bests[g.id] === null ? 'none yet' : `${bests[g.id]} ${g.unit}`}
                 </p>
                 <button type="button" className={`${btn} mt-3 justify-center`} onClick={() => setGame(g.id)}>

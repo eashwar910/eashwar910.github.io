@@ -1,5 +1,7 @@
 @import '@fontsource-variable/fraunces';
 @import '@fontsource-variable/dm-sans';
+@import '@fontsource-variable/newsreader/wght-italic.css';
+@import '@fontsource-variable/newsreader/wght.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -127,13 +129,6 @@ body {
   }
 }
 
-/* Hub panels: frosted glass. --scrim follows altitude, so the hub keeps the warm daylight tint. */
-.glass {
-  background: var(--scrim);
-  backdrop-filter: blur(18px) saturate(1.2);
-  border: 1px solid rgb(255 255 255 / 0.15);
-}
-
 /* Fallow Finder: slow radar sweep over the field grid (decorative). */
 .fallow-sweep {
   background: conic-gradient(from 0deg, transparent 0 85%, rgb(74 222 128 / 0.18) 100%);
@@ -142,5 +137,162 @@ body {
 @keyframes fallow-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* ---------- Hub (docs/HUB_REDESIGN.md): neutral dark UI, one ice-blue accent ---------- */
+.hub {
+  --accent: #9bd7ff; /* overrides the altitude-driven accent from the descent */
+  color: #f4f1ea;
+  font-family: 'DM Sans Variable', system-ui, sans-serif;
+}
+.font-hub {
+  font-family: 'Newsreader Variable', Georgia, serif;
+}
+/* In explore mode the globe takes drags, wheel and pinch. */
+.globe-live,
+.globe-live .cesium-widget,
+.globe-live canvas {
+  pointer-events: auto;
+}
+.globe-live canvas {
+  cursor: grab;
+  touch-action: none;
+}
+.globe-live canvas:active {
+  cursor: grabbing;
+}
+
+/* While the camera pulls back from the descent, only the header shows; the rest fades in once it settles. */
+.intro-ui {
+  transition: opacity 1.2s ease;
+}
+.hub[data-intro='true'] .intro-ui,
+.hub[data-intro='true'] .marker {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Marker: a ring and a dot. The button is 44px for touch; the label shows on hover, focus or near the centre. */
+.marker {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 44px;
+  height: 44px;
+  pointer-events: auto;
+  will-change: transform;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: #fff;
+  transition: opacity 0.8s ease;
+}
+.marker[data-hidden='true'] {
+  opacity: 0;
+  pointer-events: none;
+}
+.marker-ring,
+.marker-dot {
+  position: absolute;
+  border-radius: 9999px;
+}
+.marker-dot {
+  inset: 17px;
+  background: var(--accent);
+  box-shadow: 0 0 0 2px rgb(0 0 0 / 0.45);
+  animation: marker-bob 3.2s ease-in-out infinite;
+}
+.marker-ring {
+  inset: 5px;
+  border: 1px solid var(--accent);
+  animation: marker-pulse 2.8s ease-out infinite;
+}
+.marker[data-found='true'] .marker-ring {
+  background: rgb(155 215 255 / 0.22);
+}
+.marker:focus-visible {
+  outline: none;
+}
+.marker:focus-visible .marker-ring {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.marker-label {
+  position: absolute;
+  left: 46px;
+  top: 8px;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-shadow:
+    0 1px 6px #000,
+    0 0 14px #000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.marker-label small {
+  display: block;
+  margin-top: 3px;
+  font-family: 'Newsreader Variable', Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--accent);
+}
+.marker[data-flip='true'] .marker-label {
+  left: auto;
+  right: 46px;
+  text-align: right;
+}
+.marker:hover .marker-label,
+.marker:focus-visible .marker-label,
+.marker[data-near='true'] .marker-label {
+  opacity: 1;
+}
+@keyframes marker-bob {
+  50% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes marker-pulse {
+  from {
+    transform: scale(0.7);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Landmark panel: an editorial page sliding over the globe. Left column on desktop, bottom sheet on phones. */
+.hub-panel {
+  position: fixed;
+  z-index: 15;
+  overflow-y: auto;
+  background: #0a0a0a;
+  padding: 1.25rem 1.25rem 2.5rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 64vh;
+  border-top: 1px solid rgb(255 255 255 / 0.16);
+  border-radius: 14px 14px 0 0;
+}
+@media (min-width: 768px) {
+  .hub-panel {
+    top: 0;
+    right: auto;
+    width: 560px;
+    max-height: none;
+    padding: 5.5rem 2.75rem 3rem;
+    border-top: 0;
+    border-right: 1px solid rgb(255 255 255 / 0.16);
+    border-radius: 0;
   }
 }

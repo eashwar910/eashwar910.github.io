@@ -1,13 +1,24 @@
-import { useSyncExternalStore } from 'react';
+import { useMemo, useSyncExternalStore } from 'react';
 
-export const SECTIONS = ['timeline', 'projects', 'lab', 'about', 'skills', 'contact'] as const;
+// Table order from docs/HUB_REDESIGN.md section 3.
+export const SECTIONS = ['timeline', 'rice-fallow', 'projects', 'about', 'lab', 'skills', 'contact'] as const;
 export type Section = (typeof SECTIONS)[number];
-export const DEFAULT_SECTION: Section = 'timeline';
 
-/** '#/projects' -> 'projects'. Anything else (including '#/') -> null, meaning "the descent". */
-export function parseHash(hash: string): Section | null {
-  const name = hash.replace(/^#\/?/, '');
-  return (SECTIONS as readonly string[]).includes(name) ? (name as Section) : null;
+/** descent: the scroll story. explore: the globe (section = an open landmark). all: the plain scrolling page. */
+export type Route =
+  | { mode: 'descent' }
+  | { mode: 'explore'; section: Section | null }
+  | { mode: 'all'; section: Section | null };
+
+export const isSection = (s: string | undefined): s is Section => (SECTIONS as readonly string[]).includes(s ?? '');
+
+/** '#/' -> descent, '#/explore' -> globe, '#/projects' -> that landmark open, '#/all/projects' -> Show all scrolled there. */
+export function parseHash(hash: string): Route {
+  const [a, b] = hash.replace(/^#\/?/, '').split('/');
+  if (a === 'explore') return { mode: 'explore', section: null };
+  if (a === 'all') return { mode: 'all', section: isSection(b) ? b : null };
+  if (isSection(a)) return { mode: 'explore', section: a };
+  return { mode: 'descent' };
 }
 
 const subscribe = (cb: () => void) => {
@@ -15,15 +26,16 @@ const subscribe = (cb: () => void) => {
   return () => window.removeEventListener('hashchange', cb);
 };
 
-/** Current hub section from the URL hash, or null. */
-export const useSection = (): Section | null =>
-  parseHash(useSyncExternalStore(subscribe, () => location.hash));
-
-export const goto = (section: Section | null) => {
-  location.hash = section ? `/${section}` : '/';
+export const useRoute = (): Route => {
+  const hash = useSyncExternalStore(subscribe, () => location.hash);
+  return useMemo(() => parseHash(hash), [hash]);
 };
 
-// "Intro seen" lives in sessionStorage so a refresh lands on the hub instead of replaying the descent.
+export const goto = (path: string | null) => {
+  location.hash = path ? `/${path}` : '/';
+};
+
+// "Intro seen" lives in sessionStorage so a refresh lands on the globe instead of replaying the descent.
 const KEY = 'introSeen';
 export const introSeen = () => {
   try {

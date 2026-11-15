@@ -1,6 +1,9 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { createContext, createElement, useContext, useEffect, useRef, type ReactNode } from 'react';
 
-/** Section wrapper: kicker + h1, and moves focus to the heading when the panel opens (route change). */
+/** True inside the Show all page, where headings are h2 and opening a section must not steal focus. */
+export const InPage = createContext(false);
+
+/** Section wrapper: small-caps kicker + heading. In the globe panel it moves focus to the heading when it opens. */
 export default function Panel({
   kicker,
   title,
@@ -10,21 +13,30 @@ export default function Panel({
   title: string;
   children: ReactNode;
 }) {
-  const h1 = useRef<HTMLHeadingElement>(null);
-  useEffect(() => h1.current?.focus({ preventScroll: true }), []);
+  const inPage = useContext(InPage);
+  const heading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (!inPage) heading.current?.focus({ preventScroll: true });
+  }, [inPage]);
   return (
     <>
-      <p className="font-mono text-xs tracking-[0.25em] text-[color:var(--accent)]">{kicker}</p>
-      <h1 ref={h1} tabIndex={-1} className="mt-2 font-display text-3xl outline-none sm:text-4xl">
-        {title}
-      </h1>
-      <div className="mt-6">{children}</div>
+      <p className="text-xs font-medium uppercase tracking-[0.16em] text-[color:var(--accent)]">{kicker}</p>
+      {createElement(
+        inPage ? 'h2' : 'h1',
+        {
+          ref: heading,
+          tabIndex: -1,
+          className: 'mt-3 font-hub text-4xl italic leading-[1.02] tracking-tight outline-none sm:text-5xl',
+        },
+        title,
+      )}
+      <div className="mt-8">{children}</div>
     </>
   );
 }
 
 export const Chip = ({ children }: { children: ReactNode }) => (
-  <span className="rounded-full border border-white/25 bg-white/10 px-3 py-1 text-sm">{children}</span>
+  <span className="rounded-full border border-white/20 px-3 py-1 text-sm">{children}</span>
 );
 
 export const linkClass =

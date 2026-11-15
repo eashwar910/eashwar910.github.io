@@ -3,8 +3,8 @@ import Panel, { Chip } from '../Panel';
 
 export default function About() {
   return (
-    <Panel kicker="04 / ABOUT" title={profile.name}>
-      <div className="grid gap-6 sm:grid-cols-[1fr_180px]">
+    <Panel kicker="About" title={profile.name}>
+      <div className="grid gap-6">
         <div>
           <p className="opacity-80">{profile.tagline}</p>
           <p className="mt-1 text-sm opacity-70">{profile.role}</p>
@@ -14,7 +14,7 @@ export default function About() {
               {b}
             </p>
           ))}
-          <blockquote className="mt-5 border-l-2 border-[color:var(--accent)] pl-4 font-display text-xl">
+          <blockquote className="mt-5 border-l-2 border-[color:var(--accent)] pl-4 font-hub text-xl">
             {profile.principle}
           </blockquote>
           <p className="mt-5 opacity-90">{profile.availability}</p>
@@ -26,10 +26,10 @@ export default function About() {
           <h2 className="mt-6 text-sm font-semibold uppercase tracking-wider opacity-70">
             How a project goes
           </h2>
-          <ol className="mt-2 grid gap-2 sm:grid-cols-2">
+          <ol className="mt-2 grid gap-2">
             {profile.workflow.map((w, i) => (
-              <li key={w.step} className="rounded-xl border border-white/15 bg-white/5 p-3 text-sm">
-                <span className="font-mono text-xs text-[color:var(--accent)]">
+              <li key={w.step} className="rounded-md border border-white/15 bg-white/[0.03] p-3 text-sm">
+                <span className="tabular-nums text-xs text-[color:var(--accent)]">
                   {i + 1}. {w.step.toUpperCase()}
                 </span>
                 <span className="mt-1 block opacity-90">{w.text}</span>
@@ -57,11 +57,11 @@ export default function About() {
           <img
             src={profile.photo}
             alt={`Portrait of ${profile.name}`}
-            className="aspect-[4/5] w-full rounded-2xl object-cover"
+            className="aspect-[4/5] w-full max-w-[200px] rounded-lg object-cover"
           />
         ) : (
           <div
-            className="grid aspect-[4/5] w-full place-items-center rounded-2xl border border-dashed border-white/30 text-sm opacity-60"
+            className="grid aspect-[4/5] w-full max-w-[200px] place-items-center rounded-lg border border-dashed border-white/30 text-sm opacity-60"
             role="img"
             aria-label="Photo placeholder"
           >

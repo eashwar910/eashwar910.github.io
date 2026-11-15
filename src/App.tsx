@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
-import Hub from './hub/Hub';
-import { DEFAULT_SECTION, introSeen, useSection } from './hub/route';
+import { introSeen, useRoute } from './hub/route';
+import ShowAll from './hub/ShowAll';
 import Descent from './scroll/Descent';
 import StaticStory from './StaticStory';
 
@@ -25,21 +25,22 @@ export default function App() {
   const [noWebGL, setNoWebGL] = useState(() => !hasWebGL());
   const onFail = useCallback(() => setNoWebGL(true), []);
 
-  // A section in the URL opens the hub. A bare URL opens the hub too once the descent has been seen this session.
-  const urlSection = useSection();
-  const section = urlSection ?? (introSeen() ? DEFAULT_SECTION : null);
+  // A hub URL opens the hub. A bare URL opens it too once the descent has been seen this session.
+  const route = useRoute();
+  const plain = reduced || noWebGL; // no globe to explore: the plain page is the hub
+  const seen = route.mode === 'descent' && introSeen();
   useEffect(() => {
-    if (!urlSection && section) location.replace(`#/${section}`);
-  }, [urlSection, section]);
+    if (seen) location.replace(plain ? '#/all' : '#/explore');
+  }, [seen, plain]);
 
-  if (reduced || noWebGL) {
-    return section ? (
+  if (plain) {
+    return route.mode !== 'descent' ? (
       <div className="static-bg min-h-screen">
-        <Hub section={section} />
+        <ShowAll section={route.section} engine={null} />
       </div>
     ) : (
       <StaticStory reason={reduced ? 'reduced-motion' : 'no-webgl'} />
     );
   }
-  return <Descent section={section} onFail={onFail} />;
+  return <Descent route={seen ? { mode: 'explore', section: null } : route} onFail={onFail} />;
 }

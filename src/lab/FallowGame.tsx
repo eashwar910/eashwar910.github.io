@@ -75,7 +75,7 @@ export default function FallowGame({ onFinish }: { onFinish: (score: number) => 
         <Stat label="CHAIN" value={game.chain} />
         <Stat label="NEXT x" value={multiplier(game.chain).toFixed(1)} />
       </div>
-      <div className="relative mx-auto max-w-[460px] overflow-hidden rounded-2xl border border-white/20 bg-[#08140f] p-2 [background-image:repeating-radial-gradient(circle_at_50%_50%,transparent_0_28px,rgb(74_222_128/0.12)_28px_29px)]">
+      <div className="relative mx-auto max-w-[460px] overflow-hidden rounded-lg border border-white/20 bg-[#08140f] p-2 [background-image:repeating-radial-gradient(circle_at_50%_50%,transparent_0_28px,rgb(74_222_128/0.12)_28px_29px)]">
         <div className="fallow-sweep pointer-events-none absolute inset-0" aria-hidden="true" />
         <div
           ref={grid}
@@ -103,8 +103,8 @@ export default function FallowGame({ onFinish }: { onFinish: (score: number) => 
         </div>
       </div>
       {game.done && (
-        <div className="space-y-3 rounded-2xl bg-white/10 p-4">
-          <p className="font-display text-2xl">Time. {game.score} points.</p>
+        <div className="space-y-3 rounded-lg bg-white/10 p-4">
+          <p className="font-hub text-2xl">Time. {game.score} points.</p>
           <p className="text-sm opacity-90">
             {game.sown} fields sown, longest chain {game.bestChain}, {game.misses} misses.
           </p>

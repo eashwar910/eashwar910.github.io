@@ -40,7 +40,7 @@ export function createCesiumEngine(container: HTMLElement): GlobeEngine {
     requestRenderMode: true,
     maximumRenderTimeChange: Infinity,
   });
-  viewer.scene.screenSpaceCameraController.enableInputs = false; // scroll is the only driver
+  viewer.scene.screenSpaceCameraController.enableInputs = false; // scroll is the only driver until explore mode
   viewer.scene.globe.showGroundAtmosphere = true;
 
   // Ready = tiles started loading after our first camera move, then the queue drained.
@@ -57,9 +57,34 @@ export function createCesiumEngine(container: HTMLElement): GlobeEngine {
   return {
     whenReady: () => ready,
     project(lon, lat) {
-      const p = SceneTransforms.worldToWindowCoordinates(viewer.scene, Cartesian3.fromDegrees(lon, lat));
+      const world = Cartesian3.fromDegrees(lon, lat);
+      // Horizon test: a surface point faces the camera when camera . point >= |point|^2.
+      if (Cartesian3.dot(viewer.camera.positionWC, world) < Cartesian3.dot(world, world)) return null;
+      const p = SceneTransforms.worldToWindowCoordinates(viewer.scene, world);
       return p ? { x: p.x, y: p.y } : null;
     },
+    getCamera() {
+      const c = viewer.camera.positionCartographic;
+      return {
+        lon: CesiumMath.toDegrees(c.longitude),
+        lat: CesiumMath.toDegrees(c.latitude),
+        height: c.height,
+        heading: CesiumMath.toDegrees(viewer.camera.heading),
+        pitch: CesiumMath.toDegrees(viewer.camera.pitch),
+      };
+    },
+    setInputs(on, minHeight, maxHeight) {
+      const c = viewer.scene.screenSpaceCameraController;
+      c.enableInputs = on;
+      c.enableRotate = c.enableZoom = on;
+      c.enableTilt = c.enableLook = c.enableTranslate = false; // no tilting below the horizon
+      c.minimumZoomDistance = minHeight;
+      c.maximumZoomDistance = maxHeight;
+    },
+    rotate(deg) {
+      viewer.camera.rotate(Cartesian3.UNIT_Z, CesiumMath.toRadians(deg));
+    },
+    render: () => viewer.scene.requestRender(),
     setCamera({ lon, lat, height, heading, pitch }) {
       viewer.camera.setView({
         destination: Cartesian3.fromDegrees(lon, lat, height),

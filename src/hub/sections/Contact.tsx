@@ -4,7 +4,7 @@ import Panel, { linkClass } from '../Panel';
 // mailto only: a form needs a backend or a third-party service, and none was asked for.
 export default function Contact() {
   return (
-    <Panel kicker="06 / CONTACT" title="Say hello">
+    <Panel kicker="Contact" title="Say hello">
       <p className="text-lg">{profile.availability}</p>
       <ul className="mt-6 flex flex-wrap gap-3">
         <li>
