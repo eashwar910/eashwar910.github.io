@@ -9,8 +9,8 @@ import Hub from '../hub/Hub';
 import { goto, type Route } from '../hub/route';
 import Caption from './Caption';
 import LoadingScreen from './LoadingScreen';
-import { odishaOpacity, spinWeight, themeAt } from './looks';
-import OdishaOverlay from './OdishaOverlay';
+import { campusOpacity, odishaOpacity, spinWeight, themeAt } from './looks';
+import PinOverlay from './PinOverlay';
 
 const LAST = chapters.length - 1;
 const READY_TIMEOUT_MS = 8000;
@@ -32,8 +32,7 @@ export default function Descent({ route, onFail }: { route: Route; onFail: () =>
   const ctl = useRef<{ setHub: (h: boolean) => void }>();
   const globeEl = useRef<HTMLDivElement>(null);
   const altEl = useRef<HTMLSpanElement>(null);
-  const fillEl = useRef<HTMLDivElement>(null);
-  const odishaEl = useRef<HTMLDivElement>(null);
+  const pinsEl = useRef<HTMLDivElement>(null);
   const [chapter, setChapter] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [engine, setEngine] = useState<GlobeEngine | null>(null);
@@ -59,15 +58,16 @@ export default function Descent({ route, onFail }: { route: Route; onFail: () =>
     };
 
     const updateOverlay = () => {
-      const el = odishaEl.current;
+      const el = pinsEl.current;
       if (!el || !engine) return;
-      const o = odishaOpacity(current);
-      el.style.opacity = String(o);
-      if (o === 0) return;
-      for (const pin of Array.from(el.children) as HTMLElement[]) {
-        if (!pin.dataset.lon) continue;
-        const pt = engine.project(Number(pin.dataset.lon), Number(pin.dataset.lat));
-        pin.style.transform = pt ? `translate(${pt.x}px, ${pt.y}px)` : 'translate(-9999px, 0)';
+      for (const group of Array.from(el.children) as HTMLElement[]) {
+        const o = group.dataset.group === 'campus' ? campusOpacity(current) : odishaOpacity(current);
+        group.style.opacity = String(o);
+        if (o === 0) continue;
+        for (const pin of Array.from(group.querySelectorAll<HTMLElement>('[data-lon]'))) {
+          const pt = engine.project(Number(pin.dataset.lon), Number(pin.dataset.lat));
+          pin.style.transform = pt ? `translate(${pt.x}px, ${pt.y}px)` : 'translate(-9999px, 0)';
+        }
       }
     };
 
@@ -92,7 +92,6 @@ export default function Descent({ route, onFail }: { route: Route; onFail: () =>
         root.style.setProperty('--scrim', theme.scrim);
         root.style.setProperty('--accent', theme.accent);
         if (altEl.current) altEl.current.textContent = formatKm(pose.height);
-        if (fillEl.current) fillEl.current.style.transform = `scaleY(${current})`;
         setChapter(Math.round(current * LAST));
       }
       raf = current === target || hubMode ? 0 : requestAnimationFrame(tick);
@@ -188,7 +187,7 @@ export default function Descent({ route, onFail }: { route: Route; onFail: () =>
         className={`globe fixed inset-0 -z-10 bg-black ${route.mode === 'explore' ? 'globe-live' : ''}`}
         aria-hidden="true"
       />
-      <OdishaOverlay ref={odishaEl} />
+      <PinOverlay ref={pinsEl} />
       {hub && <Hub route={route} engine={engine} />}
 
       {!hub && (
@@ -206,54 +205,39 @@ export default function Descent({ route, onFail }: { route: Route; onFail: () =>
             </button>
           </header>
 
-          <nav aria-label="Chapters" className="fixed right-3 top-1/2 z-10 -translate-y-1/2 text-white">
-            <div className="absolute bottom-3 left-[11px] top-3 w-0.5 bg-white/20" aria-hidden="true">
+          {/* Captions sit in one fixed spot and cross-fade; the sections below only give the page its scroll length. */}
+          <div className="descent-captions pointer-events-none fixed inset-x-6 bottom-[12vh] z-10 text-white sm:inset-x-16">
+            {chapters.map((c, i) => (
               <div
-                ref={fillEl}
-                className="h-full origin-top bg-[color:var(--accent)]"
-                style={{ transform: 'scaleY(0)' }}
-              />
-            </div>
-            <div className="relative flex flex-col gap-1">
-              {chapters.map((c, i) => (
-                <button
-                  key={c.id}
-                  type="button"
-                  aria-label={`Chapter ${i}: ${c.title}`}
-                  aria-current={i === chapter}
-                  onClick={() => scrollToProgress(i / LAST)}
-                  className="grid h-6 w-6 place-items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
-                >
-                  <span
-                    className={`block rounded-full transition-all ${i === chapter ? 'h-3 w-3 bg-[color:var(--accent)]' : 'h-1.5 w-1.5 bg-white opacity-60'}`}
-                  />
-                </button>
-              ))}
-            </div>
-          </nav>
+                key={c.id}
+                aria-hidden={i !== chapter}
+                className="absolute bottom-0 left-0 w-full max-w-2xl"
+              >
+                <Caption chapter={c} index={i} active={i === chapter} />
+              </div>
+            ))}
+          </div>
+
+          {/* The descent ends here and waits: the visitor chooses when to leave Chennai. */}
+          <div className="pointer-events-none fixed inset-0 z-10 grid place-items-center">
+            <button
+              type="button"
+              onClick={() => goto('all')}
+              tabIndex={chapter === LAST ? 0 : -1}
+              aria-hidden={chapter !== LAST}
+              className={`dive-btn group min-h-[60px] px-4 font-hub text-4xl italic text-white transition-opacity duration-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:text-5xl ${chapter === LAST ? 'pointer-events-auto opacity-100 delay-700' : 'opacity-0'}`}
+            >
+              Dive deeper{' '}
+              <span aria-hidden="true" className="inline-block text-[color:var(--accent)] transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-y-1">
+                ↓
+              </span>
+              <span aria-hidden="true" className="dive-line" />
+            </button>
+          </div>
 
           <main className={`[touch-action:pan-y_pinch-zoom] ${chapter === 0 ? 'cursor-grab' : ''}`}>
-            {chapters.map((c, i) => (
-              <section
-                key={c.id}
-                aria-label={c.title}
-                className="flex h-screen items-center px-6 text-white sm:px-16"
-              >
-                <div>
-                  <Caption chapter={c} index={i} active={i === chapter} />
-                  {i === LAST && (
-                    // The descent ends here and waits: the visitor chooses when to leave Chennai.
-                    <button
-                      type="button"
-                      onClick={() => goto('explore')}
-                      tabIndex={chapter === LAST ? 0 : -1}
-                      className={`mt-6 min-h-[48px] rounded-full bg-[color:var(--accent)] px-7 text-base font-semibold text-black transition-opacity duration-700 hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${chapter === LAST ? 'opacity-100 delay-700' : 'pointer-events-none opacity-0'}`}
-                    >
-                      Dive deeper ↗
-                    </button>
-                  )}
-                </div>
-              </section>
+            {chapters.map((c) => (
+              <section key={c.id} aria-label={c.title} className="h-screen" />
             ))}
           </main>
         </>

@@ -94,6 +94,9 @@ export const chapters: Chapter[] = [
   },
 ];
 
+/** Chapter 4 pin: where the camera points on arriving in Malaysia. */
+export const campusPin = { name: 'University of Nottingham Malaysia', lon: 101.8736, lat: 2.945 };
+
 /** Study districts for the chapter 9 overlay. Decorative pins, not data. */
 export const odishaPins = [
   { name: 'Bolangir', lon: 83.49, lat: 20.72 },

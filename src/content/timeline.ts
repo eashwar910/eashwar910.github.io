@@ -26,16 +26,6 @@ export const timeline: TimelineItem[] = [
     detail: 'Completed Year 10 at Srimathi Sundaravalli Memorial School, Chennai, with a 95.2% aggregate.',
   },
   {
-    id: 'velammal',
-    date: 'June 2022 to May 2024',
-    title: 'High school diploma',
-    place: 'The Velammal International School, Chennai',
-    summary: 'Mathematics and Computer Science, 93.2% weighted average.', // FACT-CHECK
-    detail:
-      'Discovered coding here and chose computer science and AI over Agri-tech, while keeping the interest in agriculture.', // FACT-CHECK
-    skills: ['Problem solving', 'Leadership', 'Teamwork', 'Project management'],
-  },
-  {
     id: 'independence-site',
     date: 'Jan 2023',
     title: 'Web development competition',
@@ -53,6 +43,16 @@ export const timeline: TimelineItem[] = [
     detail:
       'Built with a CNN and transfer learning. Project: Pocket Farmer. My first major ag-tech project, using VGG16 for image classification.', // FACT-CHECK
     skills: ['Python', 'Pandas', 'Computer vision', 'VGG16'],
+  },
+  {
+    id: 'velammal',
+    date: 'June 2022 to May 2024',
+    title: 'Year 12',
+    place: 'The Velammal International School, Chennai',
+    summary: 'Mathematics and Computer Science, 93.2% weighted average.', // FACT-CHECK
+    detail:
+      'Discovered coding here and chose computer science and AI over Agri-tech, while keeping the interest in agriculture.', // FACT-CHECK
+    skills: ['Problem solving', 'Leadership', 'Teamwork', 'Project management'],
   },
   {
     id: 'unmc',
@@ -139,6 +139,14 @@ export const timeline: TimelineItem[] = [
     summary: 'Refactored and improved a faulty, buggy Tetris clone built on JavaFX.',
     detail: 'Built for the Developing Maintainable Software module. Project: JavaFX Tetris Clone.',
     skills: ['JavaFX', 'Object-oriented design', 'Software architecture'],
+  },
+  {
+    id: 'open-day',
+    date: 'April 2026',
+    title: 'First prize, Software Engineering Project open day',
+    place: 'University of Nottingham Malaysia',
+    summary: 'Farmer Buddy won first prize in the Best Project category, against 20+ other groups.',
+    detail: 'Farmer Buddy won first prize in the Best Project category at the Software Engineering Project open day, against more than 20 other groups.',
   },
   {
     id: 'cs-society',

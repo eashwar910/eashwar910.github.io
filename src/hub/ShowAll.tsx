@@ -49,7 +49,7 @@ export default function ShowAll({ section, engine }: { section: Section | null; 
           ))}
         </nav>
         <a href="#/explore" className="inline-flex min-h-[44px] items-center border-b border-white/80 text-sm font-medium">
-          Explore the globe
+          Explore landmarks
         </a>
       </header>
 

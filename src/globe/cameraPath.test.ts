@@ -54,7 +54,7 @@ describe('cameraAt', () => {
       expect(cameraAt(p, true).lon).toBeLessThan(85);
       expect(cameraAt(p, false).height).not.toBeCloseTo(cameraAt(p, true).height, -2);
     }
-    expect(cameraAt(0.5, false).lon).toBeCloseTo(101.875, 1);
+    expect(cameraAt(0.5, false).lon).toBeCloseTo(101.8736, 1);
   });
 
   it('keeps the look-at point fixed while heading swings', () => {

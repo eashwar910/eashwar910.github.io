@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { odishaOpacity, spaceness, spinWeight, themeAt } from './looks';
+import { campusOpacity, odishaOpacity, spaceness, spinWeight, themeAt } from './looks';
 
 describe('themeAt', () => {
   it('is space-coloured in orbit and daylight-coloured near the ground', () => {
@@ -30,5 +30,13 @@ describe('spinWeight', () => {
   it('is full in orbit and gone by chapter 1', () => {
     expect(spinWeight(0)).toBe(1);
     expect(spinWeight(0.1)).toBe(0);
+  });
+});
+
+describe('campusOpacity', () => {
+  it('shows only around the Malaysia chapter', () => {
+    expect(campusOpacity(0.3)).toBe(0);
+    expect(campusOpacity(0.4)).toBe(1);
+    expect(campusOpacity(0.5)).toBe(0);
   });
 });

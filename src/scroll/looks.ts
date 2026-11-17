@@ -29,9 +29,14 @@ export function themeAt(heightM: number): { scrim: string; accent: string } {
 
 const ramp = (x: number, a: number, b: number) => Math.min(Math.max((x - a) / (b - a), 0), 1);
 
+/** Campus pin opacity: shown while the chapter 4 (Malaysia) caption is up. */
+export function campusOpacity(p: number): number {
+  return ramp(p, 0.36, 0.39) * (1 - ramp(p, 0.44, 0.47));
+}
+
 /** Odisha overlay opacity over scroll progress: fades in just before Bolangir, out as the camera heads home. */
 export function odishaOpacity(p: number): number {
-  return ramp(p, 0.84, 0.87) * (1 - ramp(p, 0.95, 0.98));
+  return ramp(p, 0.84, 0.87) * (1 - ramp(p, 0.94, 0.96));
 }
 
 /** How much of the user's drag-rotation applies at scroll progress p: full in orbit, eased out by the time chapter 1 arrives. */

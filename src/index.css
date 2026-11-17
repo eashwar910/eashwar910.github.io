@@ -49,6 +49,45 @@ body {
   opacity: 0.9;
 }
 
+/* Descent: no box, just text over the globe. A soft corner gradient + shadow keeps it readable over bright city tiles. */
+.descent-captions::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 75% 65% at 0% 100%, rgb(0 0 0 / 0.55), transparent 70%),
+    radial-gradient(ellipse 75% 65% at 0% 100%, var(--scrim), transparent 70%);
+}
+.descent-captions .caption {
+  background: none;
+  backdrop-filter: none;
+  padding: 0;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.8), 0 0 24px rgb(0 0 0 / 0.5);
+}
+.dive-btn {
+  text-shadow: 0 2px 12px rgb(0 0 0 / 0.7);
+  animation: dive-glow 2.8s ease-in-out infinite;
+}
+/* Thin accent rule under the words: grows on hover. */
+.dive-line {
+  display: block;
+  height: 1px;
+  margin: 10px auto 0;
+  width: 40%;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+.dive-btn:hover .dive-line,
+.dive-btn:focus-visible .dive-line {
+  width: 100%;
+}
+@keyframes dive-glow {
+  0%, 100% { text-shadow: 0 2px 12px rgb(0 0 0 / 0.7); }
+  50% { text-shadow: 0 2px 12px rgb(0 0 0 / 0.7), 0 0 28px color-mix(in srgb, var(--accent) 60%, transparent); }
+}
+
 /* Static story (reduced motion / no WebGL): original artwork, no imagery. */
 .static-bg {
   background:

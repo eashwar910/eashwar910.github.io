@@ -78,8 +78,9 @@ export function createCesiumEngine(container: HTMLElement): GlobeEngine {
       c.enableInputs = on;
       c.enableRotate = c.enableZoom = on;
       c.enableTilt = c.enableLook = c.enableTranslate = false; // no tilting below the horizon
-      c.minimumZoomDistance = minHeight;
-      c.maximumZoomDistance = maxHeight;
+      // Cesium enforces these every frame even with inputs off, so clear them or the descent can't get below minHeight.
+      c.minimumZoomDistance = on ? minHeight : 1;
+      c.maximumZoomDistance = on ? maxHeight : Infinity;
     },
     rotate(deg) {
       viewer.camera.rotate(Cartesian3.UNIT_Z, CesiumMath.toRadians(deg));

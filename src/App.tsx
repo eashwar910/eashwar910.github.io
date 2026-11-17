@@ -25,12 +25,12 @@ export default function App() {
   const [noWebGL, setNoWebGL] = useState(() => !hasWebGL());
   const onFail = useCallback(() => setNoWebGL(true), []);
 
-  // A hub URL opens the hub. A bare URL opens it too once the descent has been seen this session.
+  // A hub URL opens the hub. A bare URL opens Show all once the descent has been seen this session.
   const route = useRoute();
   const plain = reduced || noWebGL; // no globe to explore: the plain page is the hub
   const seen = route.mode === 'descent' && introSeen();
   useEffect(() => {
-    if (seen) location.replace(plain ? '#/all' : '#/explore');
+    if (seen) location.replace('#/all');
   }, [seen, plain]);
 
   if (plain) {
@@ -42,5 +42,5 @@ export default function App() {
       <StaticStory reason={reduced ? 'reduced-motion' : 'no-webgl'} />
     );
   }
-  return <Descent route={seen ? { mode: 'explore', section: null } : route} onFail={onFail} />;
+  return <Descent route={seen ? { mode: 'all', section: null } : route} onFail={onFail} />;
 }

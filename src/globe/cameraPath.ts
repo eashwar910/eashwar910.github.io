@@ -29,15 +29,17 @@ export const WAYPOINTS: Waypoint[] = [
   { p: 0.3, lon: 80.27, lat: 13.08, hKm: 900, pitch: -80 }, // 3 age 16, Chennai region
   { p: 0.33, lon: 80.27, lat: 13.08, hKm: 800, pitch: -80 },
   { p: 0.36, lon: 91, lat: 8, hKm: 1400, pitch: -90, detour: true }, // glide arc over the Bay of Bengal
-  { p: 0.4, lon: 101.875, lat: 2.945, hKm: 300, pitch: -90, detour: true }, // 4 Malaysia
-  { p: 0.5, lon: 101.875, lat: 2.945, hKm: 40, pitch: -70, detour: true }, // 5 seeds
-  { p: 0.6, lon: 101.875, lat: 2.945, hKm: 30, pitch: -70, detour: true }, // 6 Farmer Buddy
-  { p: 0.7, lon: 101.875, lat: 2.945, hKm: 30, pitch: -70, detour: true }, // 7 back for more
+  { p: 0.4, lon: 101.8736, lat: 2.945, hKm: 300, pitch: -90, detour: true }, // 4 Malaysia: University of Nottingham Malaysia, Semenyih campus
+  { p: 0.5, lon: 101.8736, lat: 2.945, hKm: 40, pitch: -70, detour: true }, // 5 seeds
+  { p: 0.6, lon: 101.8736, lat: 2.945, hKm: 30, pitch: -70, detour: true }, // 6 Farmer Buddy
+  { p: 0.7, lon: 101.8736, lat: 2.945, hKm: 30, pitch: -70, detour: true }, // 7 back for more
   { p: 0.8, lon: 109.3, lat: 4.1, hKm: 2600, pitch: -90, detour: true }, // 8 community: all of Malaysia (peninsula + Borneo) in frame
   { p: 0.85, lon: 93, lat: 12, hKm: 1500, pitch: -90, detour: true }, // glide arc back across
   { p: 0.88, lon: 83.49, lat: 20.72, hKm: 260, pitch: -90, detour: true }, // 9 Bolangir
-  { p: 0.93, lon: 86.93, lat: 21.49, hKm: 260, pitch: -90, detour: true }, // 9 Baleswar
-  { p: 1.0, lon: 80.2707, lat: 13.0827, hKm: 3, pitch: -35 }, // 10 Chennai, tilt ~55deg from vertical
+  { p: 0.94, lon: 86.93, lat: 21.49, hKm: 260, pitch: -90, detour: true }, // 9 Baleswar
+  // Home lands at 0.98 (about two wheel flicks after Baleswar) and holds to the end of the page.
+  { p: 0.98, lon: 80.2707, lat: 13.0827, hKm: 3, pitch: -35 }, // 10 Chennai, tilt ~55deg from vertical
+  { p: 1.0, lon: 80.2707, lat: 13.0827, hKm: 3, pitch: -35 },
 ];
 
 export function waypointsFor(straight: boolean): Waypoint[] {

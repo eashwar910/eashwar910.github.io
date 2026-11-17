@@ -2,4 +2,4 @@
 export const STRAIGHT_ZOOM = false;
 
 /** Easing rate of the camera chasing the scroll position. Higher = snappier. */
-export const SMOOTHING = 7;
+export const SMOOTHING = 3.5;
