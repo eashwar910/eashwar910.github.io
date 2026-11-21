@@ -1,7 +1,7 @@
 name: Deploy Portfolio
 on:
   push:
-    branches: [v3-revamp]
+    branches: [main]
 permissions:
   contents: read
   pages: write
@@ -16,6 +16,8 @@ jobs:
           node-version: 20
       - run: npm install
       - run: npm run build
+        env:
+          VITE_CESIUM_ION_TOKEN: ${{ secrets.VITE_CESIUM_ION_TOKEN }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
