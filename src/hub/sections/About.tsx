@@ -14,28 +14,7 @@ export default function About() {
               {b}
             </p>
           ))}
-          <blockquote className="mt-5 border-l-2 border-[color:var(--accent)] pl-4 font-hub text-xl">
-            {profile.principle}
-          </blockquote>
           <p className="mt-5 opacity-90">{profile.availability}</p>
-          <ul className="mt-4 space-y-1 text-sm italic opacity-80" aria-label="Taglines">
-            {profile.taglines.map((t) => (
-              <li key={t}>{t}</li>
-            ))}
-          </ul>
-          <h2 className="mt-6 text-sm font-semibold uppercase tracking-wider opacity-70">
-            How a project goes
-          </h2>
-          <ol className="mt-2 grid gap-2">
-            {profile.workflow.map((w, i) => (
-              <li key={w.step} className="rounded-md border border-white/15 bg-white/[0.03] p-3 text-sm">
-                <span className="tabular-nums text-xs text-[color:var(--accent)]">
-                  {i + 1}. {w.step.toUpperCase()}
-                </span>
-                <span className="mt-1 block opacity-90">{w.text}</span>
-              </li>
-            ))}
-          </ol>
           <h2 className="mt-6 text-sm font-semibold uppercase tracking-wider opacity-70">Languages</h2>
           <ul className="mt-2 flex flex-wrap gap-2">
             {profile.languages.map((l) => (

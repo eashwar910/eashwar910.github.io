@@ -5,31 +5,12 @@ export const profile = {
   role: 'Computer Science & AI Student, AgTech Research',
   intro:
     'Developing computer vision and machine learning solutions to address agricultural challenges one at a time.',
-  taglines: [
-    'AI that helps crops thrive.',
-    'From pixels to harvest: building intelligent agriculture.',
-    'Computer Vision for plants, soil, and sustainable yields.',
-    'Turning field data into field results.',
-    'Learning systems for living systems.',
-  ],
-  // How a project goes, from the previous site.
-  workflow: [
-    { step: 'Field data', text: 'Collect high-resolution images and sensor data from agricultural fields.' },
-    { step: 'Labeling', text: 'Expert-verified annotations and ground truth data preparation.' },
-    {
-      step: 'Model training',
-      text: 'Deep learning architectures optimized for agricultural computer vision.',
-    },
-    { step: 'Deployment', text: 'Edge computing solutions for real-time field applications.' },
-  ],
   location: 'From Chennai, Tamil Nadu. Studying in Malaysia.',
   // FACT-CHECK
   bio: [
     "I'm a Computer Science with AI undergraduate from Chennai, now in my third year at the University of Nottingham Malaysia.",
-    'My work is reading change from imagery, in service of agriculture.',
   ],
-  principle: 'I prefer fixing data quality to adding model layers.',
-  availability: 'Open to research assistant roles, internships and agtech projects.',
+  availability: 'Open to fresh grad opportunities as an AI Engineer starting June 2027.',
   languages: ['English (fluent)', 'Tamil (native)', 'Saurashtra (native)'],
   interests: ['Music and guitar', 'Web and app development', 'Community volunteering', 'Hiking and camping'],
   photo: null as string | null, // CONFIRM: placeholder until a photo is supplied (put it in public/ and set the path)

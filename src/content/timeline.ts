@@ -113,7 +113,7 @@ export const timeline: TimelineItem[] = [
   {
     id: 'webcam-paint',
     date: 'Jun 2025',
-    title: 'Web cam paint app',
+    title: 'WebCam Paint',
     place: 'Personal project',
     summary: 'A computer vision project, made while learning the basics of OpenCV and Python.',
     detail: 'A small project to get hands-on with OpenCV and Python.',

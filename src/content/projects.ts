@@ -97,11 +97,27 @@ export const projects: Project[] = [
   },
   {
     id: 'pmy-segmentation',
-    name: 'PMY Segmentation Pipeline',
-    tags: ['Computer vision'],
-    // CONFIRM: the resume expands PMY as "Polymorphonuclear Yeast". Confirm the wording before showing the expansion.
+    name: 'PMY Cell Segmentation Pipeline',
+    context: 'Introduction to Image Processing (COMP2032) group coursework',
+    tags: ['Computer vision', 'Coursework'],
     summary:
-      'An end-to-end classical and deep-learning pipeline to segment and quantify PMY cells in microscope slide images.',
+      'A classical image processing pipeline that segments pro-myelocyte (PMY) cells in microscope images and outputs each cell in colour on a white background.',
+    points: [
+      'Steps: LAB L-channel extraction, inverted Otsu thresholding, largest connected component, flood fill to close holes, 7x7 morphological closing, then GrabCut boundary refinement.',
+      'Runs over the full dataset to write binary masks for evaluation, and over 9 selected easy, medium and hard images with every intermediate step saved.',
+    ],
+    stack: ['Python', 'OpenCV', 'NumPy', 'Otsu thresholding', 'GrabCut', 'Morphology'],
+    dataset: 'Naturalize Dataset: 16,000 microscope cell images across classes including PMY, EO and ERB.',
+    year: 2026,
+    links: [{ label: 'GitHub repository', href: 'https://github.com/eashwar910/pmy-cell-segmentation' }],
+  },
+  {
+    id: 'aegis-waf',
+    name: 'Aegis WAF',
+    tags: ['Security', 'LLM'],
+    summary:
+      'A web application firewall for FinTech agents, using a two-tier CaMeL (Carefully Managed LLM) architecture with NeMo Guardrails and dynamic risk scoring to stop prompt injection attacks.',
+    stack: ['NeMo Guardrails', 'CaMeL', 'Python'],
     links: [{ label: 'GitHub repository', href: '' }], // TODO: repo URL (an empty href is hidden)
   },
   {
@@ -155,6 +171,25 @@ export const projects: Project[] = [
     dataset: 'Procedurally generated 71x71 maze, using randomized Union-Find (DSU) logic.',
     year: 2025,
     links: [{ label: 'GitHub repository', href: 'https://github.com/eashwar910/MazeSolver' }],
+  },
+  {
+    id: 'webcam-paint',
+    name: 'WebCam Paint',
+    context: 'Personal project',
+    tags: ['Computer vision'],
+    summary:
+      'A real-time paint app where the webcam is the canvas and finger gestures, tracked with MediaPipe, are the brush.',
+    stack: ['Python', 'OpenCV', 'MediaPipe'],
+    year: 2025,
+    links: [{ label: 'GitHub repository', href: '' }], // TODO: repo URL (an empty href is hidden)
+  },
+  {
+    id: 'srtf-visualizer',
+    name: 'SRTF Visualizer',
+    tags: ['Algorithms'],
+    summary:
+      'A command-line visualiser for Shortest Remaining Time First CPU scheduling, simulating process queues and printing a Gantt chart.',
+    links: [{ label: 'GitHub repository', href: '' }], // TODO: repo URL (an empty href is hidden)
   },
   {
     id: 'terminal-contacts',

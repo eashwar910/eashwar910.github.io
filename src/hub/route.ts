@@ -1,7 +1,7 @@
 import { useMemo, useSyncExternalStore } from 'react';
 
 // Table order from docs/HUB_REDESIGN.md section 3.
-export const SECTIONS = ['timeline', 'rice-fallow', 'projects', 'about', 'lab', 'skills', 'contact'] as const;
+export const SECTIONS = ['timeline', 'rice-fallow', 'projects', 'about', 'skills', 'contact', 'lab'] as const;
 export type Section = (typeof SECTIONS)[number];
 
 /** descent: the scroll story. explore: the globe (section = an open landmark). all: the plain scrolling page. */
