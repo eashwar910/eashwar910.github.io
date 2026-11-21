@@ -13,7 +13,6 @@ export const profile = {
   availability: 'Open to fresh grad opportunities as an AI Engineer starting June 2027.',
   languages: ['English (fluent)', 'Tamil (native)', 'Saurashtra (native)'],
   interests: ['Music and guitar', 'Web and app development', 'Community volunteering', 'Hiking and camping'],
-  photo: null as string | null, // CONFIRM: placeholder until a photo is supplied (put it in public/ and set the path)
   email: 'eashwarsiddha@gmail.com',
   github: 'https://github.com/eashwar910',
   linkedin: 'https://www.linkedin.com/in/eash123',

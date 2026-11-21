@@ -32,21 +32,6 @@ export default function About() {
             ))}
           </ul>
         </div>
-        {profile.photo ? (
-          <img
-            src={profile.photo}
-            alt={`Portrait of ${profile.name}`}
-            className="aspect-[4/5] w-full max-w-[200px] rounded-lg object-cover"
-          />
-        ) : (
-          <div
-            className="grid aspect-[4/5] w-full max-w-[200px] place-items-center rounded-lg border border-dashed border-white/30 text-sm opacity-60"
-            role="img"
-            aria-label="Photo placeholder"
-          >
-            Photo coming
-          </div>
-        )}
       </div>
       <p className="mt-6 text-sm opacity-70">{profile.location}</p>
     </Panel>
