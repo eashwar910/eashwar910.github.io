@@ -1,7 +1,7 @@
 name: Deploy Portfolio
 on:
   push:
-    branches: [main]
+    branches: [v3-revamp]
 permissions:
   contents: read
   pages: write
