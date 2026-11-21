@@ -1,6 +1,7 @@
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import {
   Cartesian3,
+  Color,
   Ion,
   ImageryLayer,
   Math as CesiumMath,
@@ -42,6 +43,12 @@ export function createCesiumEngine(container: HTMLElement): GlobeEngine {
   });
   viewer.scene.screenSpaceCameraController.enableInputs = false; // scroll is the only driver until explore mode
   viewer.scene.globe.showGroundAtmosphere = true;
+  viewer.scene.globe.baseColor = Color.fromCssColorString('#0b1a33'); // dark ocean, not bright blue, while tiles stream in
+  viewer.scene.globe.tileCacheSize = 500; // scrolling back up reuses tiles instead of refetching (default 100)
+
+  // Save-Data or a 2G/3G link: always use the coarse tiles and smaller canvas so the globe arrives sooner.
+  const conn = (navigator as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  const slow = !!conn && (!!conn.saveData || /2g|3g/.test(conn.effectiveType ?? ''));
 
   // Ready = tiles started loading after our first camera move, then the queue drained.
   let started = false;
@@ -54,7 +61,7 @@ export function createCesiumEngine(container: HTMLElement): GlobeEngine {
     });
   });
 
-  return {
+  const engine: GlobeEngine = {
     whenReady: () => ready,
     project(lon, lat) {
       const world = Cartesian3.fromDegrees(lon, lat);
@@ -99,10 +106,13 @@ export function createCesiumEngine(container: HTMLElement): GlobeEngine {
       viewer.scene.requestRender();
     },
     setLowPower(on) {
+      on ||= slow;
       viewer.resolutionScale = on ? 0.75 : 1;
       viewer.scene.globe.maximumScreenSpaceError = on ? 3 : 2;
       viewer.scene.requestRender();
     },
     destroy: () => viewer.destroy(),
   };
+  if (slow) engine.setLowPower(true);
+  return engine;
 }

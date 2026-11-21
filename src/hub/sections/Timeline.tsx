@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { timeline } from '../../content/timeline';
-import Panel, { Chip } from '../Panel';
+import Panel, { Chip, linkClass } from '../Panel';
 
 export default function Timeline() {
   const [open, setOpen] = useState<string | null>(null);
@@ -51,6 +51,13 @@ export default function Timeline() {
                           </li>
                         ))}
                       </ul>
+                    )}
+                    {t.repo && (
+                      <p className="p-2">
+                        <a href={t.repo} target="_blank" rel="noreferrer noopener" className={linkClass}>
+                          GitHub repository
+                        </a>
+                      </p>
                     )}
                   </motion.div>
                 )}

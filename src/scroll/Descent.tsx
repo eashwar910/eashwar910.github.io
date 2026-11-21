@@ -45,6 +45,7 @@ export default function Descent({ route, onFail }: { route: Route; onFail: () =>
     let max = 1;
     let target = 0;
     let current = 0;
+    let velocity = 0;
     let drawn = -1;
     let hubMode = hubInit.current;
     let spinLon = 0; // user drag-rotation of the orbit view, degrees
@@ -74,10 +75,23 @@ export default function Descent({ route, onFail }: { route: Route; onFail: () =>
     // Progress lives in plain variables; only the chapter index touches React state.
     // In hub mode the hub owns the camera, so this loop only ever runs during the descent.
     const tick = (now: number) => {
+      // A frame queued before the switch to the hub must not overwrite the hub's camera with a descent pose.
+      if (hubMode) {
+        raf = 0;
+        return;
+      }
       const dt = Math.min((now - last) / 1000, 0.1);
       last = now;
-      current += (target - current) * (1 - Math.exp(-dt * SMOOTHING));
-      if (Math.abs(target - current) < 1e-5) current = target;
+      // Critically damped spring: velocity carries across wheel ticks, so the camera never jolts or overshoots.
+      const x = current - target;
+      const k = (velocity + SMOOTHING * x) * dt;
+      const decay = Math.exp(-SMOOTHING * dt);
+      velocity = (velocity - SMOOTHING * k) * decay;
+      current = Math.min(Math.max(target + (x + k) * decay, 0), 1);
+      if (Math.abs(target - current) < 1e-5 && Math.abs(velocity) < 1e-4) {
+        current = target;
+        velocity = 0;
+      }
       if (current !== drawn) {
         drawn = current;
         const pose = cameraAt(current, STRAIGHT_ZOOM);
@@ -111,6 +125,7 @@ export default function Descent({ route, onFail }: { route: Route; onFail: () =>
         if (!h) {
           window.scrollTo(0, 0); // replay: start again from orbit
           current = 0;
+          velocity = 0;
         }
         measure();
         drawn = -1;

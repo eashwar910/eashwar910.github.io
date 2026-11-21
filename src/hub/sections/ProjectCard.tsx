@@ -30,9 +30,9 @@ export default function ProjectCard({ p }: { p: Project }) {
           ))}
         </ul>
       )}
-      {p.links && (
+      {p.links?.some((l) => l.href) && (
         <p className="mt-4 flex flex-wrap gap-2">
-          {p.links.map((l) => (
+          {p.links.filter((l) => l.href).map((l) => (
             <a key={l.href} href={l.href} target="_blank" rel="noreferrer noopener" className={linkClass}>
               {l.label}
             </a>

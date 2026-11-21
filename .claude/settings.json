@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "ClaudeInChromeDomain(localhost:5174)",
-      "mcp__claude-in-chrome__tabs_context_mcp"
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "Bash(npx vite *)",
+      "Bash(python3 -)",
+      "Bash(npx vitest *)",
+      "Bash(npx eslint *)",
+      "Bash(lsof -iTCP -sTCP:LISTEN -P)",
+      "ClaudeInChromeDomain(localhost:5173)"
     ]
   }
 }

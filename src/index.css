@@ -112,7 +112,16 @@ body {
 }
 .globe .cesium-widget-credits {
   pointer-events: auto;
-  font-size: 10px;
+  font-size: 9px;
+  opacity: 0.45; /* dimmed but still visible: ion terms and imagery licenses require the credit */
+  transition: opacity 0.2s;
+}
+.globe .cesium-widget-credits:hover {
+  opacity: 1;
+}
+.globe .cesium-credit-logoContainer img {
+  height: 12px;
+  width: auto;
 }
 
 /* Odisha radar overlay (decorative). */

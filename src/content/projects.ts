@@ -53,6 +53,7 @@ export const projects: Project[] = [
       'Bodycam employee monitoring.',
     ],
     award: 'First Place, Best School Project Category', // CONFIRM wording: shown exactly as written on the resume.
+    links: [{ label: 'GitHub repository', href: '' }], // TODO: repo URL (an empty href is hidden)
   },
   {
     id: 'seed-germination-analyzer',
@@ -101,6 +102,7 @@ export const projects: Project[] = [
     // CONFIRM: the resume expands PMY as "Polymorphonuclear Yeast". Confirm the wording before showing the expansion.
     summary:
       'An end-to-end classical and deep-learning pipeline to segment and quantify PMY cells in microscope slide images.',
+    links: [{ label: 'GitHub repository', href: '' }], // TODO: repo URL (an empty href is hidden)
   },
   {
     id: 'ocr-handwriting',
@@ -136,6 +138,7 @@ export const projects: Project[] = [
     summary:
       'Compared GA, PSO, ACO, Hybrid GA-PSO and NSGA-II for feature selection on an intrusion detection classifier, analysing accuracy, feature reduction and computational efficiency.',
     stack: ['GA', 'PSO', 'ACO', 'Hybrid GA-PSO', 'NSGA-II'],
+    links: [{ label: 'GitHub repository', href: '' }], // TODO: repo URL (an empty href is hidden)
   },
   {
     id: 'maze-visualizer',
@@ -183,6 +186,7 @@ export const projects: Project[] = [
     stack: ['ERD', 'Relational database design', 'SQL schema', 'HTML', 'CSS', 'JavaScript', 'PHP'],
     dataset: 'CRM data model: users, customers, leads and interaction histories (schema design).',
     year: 2025,
+    links: [{ label: 'GitHub repository', href: '' }], // TODO: repo URL (an empty href is hidden)
   },
   {
     id: 'javafx-tetris',

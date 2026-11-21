@@ -12,7 +12,7 @@ describe('content ground rules', () => {
     expect(everything.toLowerCase()).not.toContain('phone');
   });
   it('links only to my own GitHub repos and Kaggle datasets', () => {
-    const hrefs = projects.flatMap((p) => p.links ?? []).map((l) => l.href);
+    const hrefs = projects.flatMap((p) => p.links ?? []).map((l) => l.href).filter(Boolean); // '' = repo placeholder
     expect(hrefs).toContain('https://github.com/eashwar910/rice-fallow-radar');
     for (const h of hrefs)
       expect(h).toMatch(/^https:\/\/(github\.com\/eashwar910\/|www\.kaggle\.com\/datasets\/)/);
