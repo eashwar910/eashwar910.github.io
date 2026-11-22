@@ -16,6 +16,5 @@ export const profile = {
   email: 'eashwarsiddha@gmail.com',
   github: 'https://github.com/eashwar910',
   linkedin: 'https://www.linkedin.com/in/eash123',
-  // CONFIRM: null until a phone-free resume PDF is supplied (public/static/resume.pdf currently contains a phone number, so it is not linked).
-  resumeUrl: null as string | null,
+  resumeUrl: '/static/resume.pdf' as string | null,
 };
